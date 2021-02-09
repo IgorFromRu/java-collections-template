@@ -3,8 +3,6 @@ package com.epam.izh.rd.online.service;
 import com.epam.izh.rd.online.helper.Direction;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Совет:
@@ -67,13 +65,7 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public List<String> getWords(String text) {
-        Pattern pattern = Pattern.compile("\\w+");
-        Matcher matcher = pattern.matcher(text);
-        List<String> words = new ArrayList<>();
-        while (matcher.find()) {
-            words.add(matcher.group());
-        }
-        return words;
+        return Arrays.asList(text.split("\\W+"));
     }
 
     /**
@@ -126,8 +118,8 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
     @Override
     public List<String> sortWordsByLength(String text, Direction direction) {
         List<String> wordList = getWords(text);
-        wordList.sort(Comparator.comparingInt(s -> s.length()));
-        if (direction == Direction.DESC){
+        wordList.sort(Comparator.comparingInt(String::length));
+        if (direction == Direction.DESC) {
             Collections.reverse(wordList);
         }
         return wordList;
